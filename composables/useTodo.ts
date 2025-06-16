@@ -10,8 +10,30 @@ export interface TodoList {
   title: string;
   items: TodoListItem[];
 }
+
+let todos: Ref<TodoList[]>;
+
 export function useTodo() {
-  const todos = useState<TodoList[]>("todos", () => []);
+  //singleton pattern to ensure todos is only created once
+  if (!todos) {
+    todos = useState<TodoList[]>("todos", () => []);
+    watch(
+      todos,
+      (newTodos) => {
+        const data = JSON.stringify(newTodos);
+        localStorage.setItem("todos", data);
+      },
+      { deep: true }
+    );
+  }
+
+  function loadTodos() {
+    const data = localStorage.getItem("todos");
+    if (data) {
+      //validate the data before parsing
+      todos.value = JSON.parse(data);
+    }
+  }
 
   function addTodo(title: string) {
     todos.value.push({
@@ -58,14 +80,14 @@ export function useTodo() {
       if (item) {
         item.done = true;
       }
-    }
+    };
 
     const markItemUndone = (id: string) => {
       const item = todo.items.find((item) => item.id === id);
       if (item) {
         item.done = false;
       }
-    }
+    };
 
     const removeItem = (id: string) => {
       todo.items = todo.items.filter((item) => item.id !== id);
@@ -76,13 +98,14 @@ export function useTodo() {
       addItem,
       updateItemTitle,
       markItemDone,
-      markItemUndone, 
+      markItemUndone,
       removeItem,
     };
   }
 
   return {
     todos,
+    loadTodos,
     addTodo,
     updateTodoTitle,
     removeTodo,
