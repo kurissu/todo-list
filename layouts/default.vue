@@ -9,6 +9,11 @@
             >
           </li>
           <li class="ml-auto">
+            <NuxtLink class="text-blue-600 underline" to="/login"
+              >Login</NuxtLink
+            >
+          </li>
+          <li>
             <NuxtLink class="text-white bg-blue-600 py-1 px-2 rounded-md" to="/sign-up"
               >Sign Up</NuxtLink
             >
