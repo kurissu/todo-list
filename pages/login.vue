@@ -7,25 +7,33 @@ const input = ref({
 const toast = useToast()
 
 
+const { login } = useUser()
+
 async function onLogin() {
   // Handle sign-up logic here
-  const {data, error} = await authClient.signIn.email({
-    ...input.value,
-  });
-  if (error) {
+  try {
+    const data = await login(input.value.email, input.value.password);
     toast.add({
-      title: error.message || "An error occurred",
+      title: `Login successful! with ${data.user.email}`,
+      color: "success",
+    });
+    await navigateTo("/");
+  } catch (error) {
+    toast.add({
+      title: (error as Error)?.message || "An error occurred",
       color: "error",
     })
     return
-  } 
-  toast.add({
-    title: `Login successful! with ${data.user.email}`,
-    color: "success",
-  });
-  await navigateTo("/");
+  }
+  // const {data, error} = await authClient.signIn.email({
+  //   ...input.value,
+  // });
+  // if (error) {
+  // } 
 }
 </script>
+
+
 
 <template>
   <div class="max-w-xs mx-auto ">

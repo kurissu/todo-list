@@ -5,6 +5,11 @@ if(import.meta.client) {
     loadTodos();
   })
 }
+
+await callOnce(async () => {
+  const { getCurrentUser } = useUser()
+  await getCurrentUser();
+})
 </script>
 <template>
   <div>
