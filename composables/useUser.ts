@@ -1,4 +1,5 @@
 import type { User } from "better-auth";
+import { authClient } from "~/lib/auth-client";
 
 export function useUser() {
   const user = useState<User | null>("user", () => null);
