@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { PrismaClient } from '~/generated/prisma'
+
 
 const schema = z.object({
   todoListItemId: z.string().uuid(),
@@ -6,6 +8,8 @@ const schema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
+      const prisma = new PrismaClient();
+  
   const user = await getCurrentUser(event)
   if (!user) {
     throw createError({ status: 401 })

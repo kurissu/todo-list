@@ -1,4 +1,7 @@
+import { PrismaClient } from '~/generated/prisma'
+
 export default defineEventHandler(async (event) => {
+  const prisma = new PrismaClient();
   const user = await getCurrentUser(event)
   if(!user){
      throw createError({

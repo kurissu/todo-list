@@ -1,10 +1,14 @@
 import { z } from "zod";
+import { PrismaClient } from '~/generated/prisma'
+
 
 const schema = z.object({
   title: z.string(),
 });
 
 export default defineEventHandler(async (event) => {
+    const prisma = new PrismaClient();
+  
   const user = await getCurrentUser(event);
   if(!user){
     throw createError({
