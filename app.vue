@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 if(import.meta.client) {
-  await callOnce(() => {
-    const {loadTodos} = useTodo()
+  await callOnce(async () => {
+    const {loadTodos, loadTodoListFromOnline} = useTodo()
+    const { user } = useUser()
     loadTodos();
+    if(user.value){
+      await loadTodoListFromOnline();
+    }
   })
 }
 

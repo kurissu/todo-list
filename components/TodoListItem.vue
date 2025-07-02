@@ -17,12 +17,12 @@ function onToggleItem(id:string, value: boolean | 'indeterminate') {
   }
 }
 
-function onItemTitleUpdated(todoId: string, newTitle: string) {
-  currentTodo.updateItemTitle(todoId, newTitle);
+function onItemTitleUpdated(id: string, newTitle: string) {
+  currentTodo.updateItemTitle(id, newTitle);
 }
 
-function onDeleteConfirmed(itemId: string) {
-  currentTodo.removeItem(itemId);
+function onDeleteConfirmed(id: string) {
+  currentTodo.removeItem(id);
 }
 </script>
 

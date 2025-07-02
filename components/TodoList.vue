@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import ModalUpdateTitle from "./ModalUpdateTitle.vue";
-
-const { todos, updateTodoTitle, removeTodo } = useTodo();
+const toast = useToast();
+const { user } = useUser();
+const { todos, updateTodoTitle, removeTodo, syncTodo } = useTodo();
 
 function onUpdateTitle(id: string, newTitle: string) {
   updateTodoTitle(id, newTitle)
@@ -10,6 +11,21 @@ function onUpdateTitle(id: string, newTitle: string) {
 function onDeleteConfirmed(id: string) {
   removeTodo(id);
 } 
+
+const syncBtnLoading = ref(false);
+
+async function onSyncTodo(id: string){
+  syncBtnLoading.value = true;
+  try {
+    const res = await syncTodo(id);
+    if(res) {
+      toast.add({title: res, color: 'success'});
+    }
+  } catch (error) {
+     toast.add({title: (error as Error)?.message || 'Unknown error', color: 'error'});
+  }
+  syncBtnLoading.value = false;
+}
 </script>
 <template>
   <ClientOnly>
@@ -25,7 +41,15 @@ function onDeleteConfirmed(id: string) {
             <span class="font-bold">
               {{ todo.title }}
             </span>
-            <div class="flex gap-0.5">
+            <div class="flex items-center gap-0.5">
+              <div class="text-xs mr-1">
+                <span class="font-semibold">Mode: </span>
+                <span :class="{'text-green-600': todo.onlineMode, 'text-red-600': !todo.onlineMode}">{{ todo.onlineMode ? 'Online' : 'Offline' }}</span>
+              </div>
+              <UButton
+                v-if="!todo.onlineMode && user"
+                size="xs" class="ml-2" color="secondary"
+                @click="onSyncTodo(todo.id)" :loading="syncBtnLoading">Sync</UButton>
               <ModalUpdateTitle
                 header-title="Update Todo List Title"
                 :previous-title="todo.title"

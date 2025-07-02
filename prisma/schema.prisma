@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,12 +15,23 @@ datasource db {
 }
 
 model TodoList {
-  id    String @id @default(uuid())
-  title String
+  id     String         @id @default(uuid())
+  title  String
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  items  TodoListItem[]
+}
+
+model TodoListItem {
+  id         String   @id @default(uuid())
+  todoList   TodoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)
+  todoListId String
+  title      String
+  done       Boolean  @default(false)
 }
 
 model User {
-  id            String    @id
+  id            String     @id
   name          String
   email         String
   emailVerified Boolean
@@ -29,6 +40,7 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  TodoLists     TodoList[]
 
   @@unique([email])
   @@map("user")
