@@ -1,4 +1,4 @@
-import { authClient } from '~/utils/auth-client'
+import { authClient } from '~/lib/auth-client'
 import type { H3Event } from 'h3'
 
 export async function getCurrentUser(event: H3Event) {
