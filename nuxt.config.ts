@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
+  build: {
+        transpile: ['~/prisma/client'], // <-- add this
+  }
   css: ["~/assets/css/main.css"],
   ui: {
     colorMode: false
