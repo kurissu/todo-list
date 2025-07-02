@@ -9,6 +9,7 @@ export function useUser() {
     //Web browser (cookie) ==> http://localhost:3000/ (nuxt)
     //Nuxt (cookie) ==> BetterAuth (cookie)
     // BetterAuth ==> Database
+    //test
 
     try {
       const session = await authClient.getSession({
