@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-if(import.meta.client) {
+if (import.meta.client) {
   await callOnce(async () => {
-    const {loadTodos, loadTodoListFromOnline} = useTodo()
+    const { loadTodos, loadTodoListFromOnline } = useTodo()
     const { user } = useUser()
     loadTodos();
-    if(user.value){
+    if (user.value) {
       await loadTodoListFromOnline();
     }
   })
@@ -18,6 +18,7 @@ await callOnce(async () => {
 <template>
   <div>
     <UApp>
+      <NuxtLoadingIndicator />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
