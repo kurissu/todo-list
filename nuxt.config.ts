@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   build: {
         transpile: ['~/prisma/client'], // <-- add this
-  }
+  },
   css: ["~/assets/css/main.css"],
   ui: {
     colorMode: false
