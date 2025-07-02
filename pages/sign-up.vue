@@ -5,26 +5,26 @@ const input = ref({
   password: "",
 });
 
+const { signUp } = useUser()
+const { start, finish } = useLoadingIndicator()
+const loading = ref(false)
+
+
 const toast = useToast()
 
 
 async function onSignUp() {
-  // Handle sign-up logic here
-  const {data, error} = await authClient.signUp.email({
-    ...input.value,
-  });
-  if (error) {
-    toast.add({
-      title: error.message || "An error occurred",
-      color: "error",
-    })
-    return
-  } 
-  toast.add({
-    title: `Sign up successful! You can now login with ${data.user.email}`,
-    color: "success",
-  });
-  await navigateTo("/login");
+ loading.value = true
+  start()
+  try {
+    const data = await signUp(input.value.name, input.value.email, input.value.password)
+    toast.add({ title: `Sign up successful. You can now login with ${data.user.email}`, color: 'success' })
+    await navigateTo('/login')
+  } catch (error) {
+    toast.add({ title: (error as Error)?.message || 'Unknown error', color: 'error' })
+  }
+  finish()
+  loading.value = false
 }
 </script>
 
@@ -47,7 +47,7 @@ async function onSignUp() {
           />
         </UFormField>
         <div class="mt-3">
-          <UButton block type="submit">Sign Up</UButton>
+          <UButton type="submit" block :loading="loading">Submit</UButton>
         </div>
       </div>
     </form>

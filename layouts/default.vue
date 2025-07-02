@@ -1,14 +1,25 @@
 <script lang="ts" setup>
 const toast = useToast();
+const { start, finish } = useLoadingIndicator()
+const logoutLoading = ref(false)
 
 const { user, logout } = useUser();
 async function onLogout() {
-  await logout();
-  toast.add({
-    title: "Logout successful",
-    color: "success",
-  });
-  await navigateTo("/");
+  logoutLoading.value = true
+  start()
+  try {
+    await logout();
+    toast.add({
+      title: "Logout successful",
+      color: "success",
+    });
+    await navigateTo("/");
+    
+  } catch (error) {
+    console.log(error)
+  }
+  finish()
+  logoutLoading.value = false
 }
 </script>
 
