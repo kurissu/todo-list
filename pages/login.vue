@@ -5,6 +5,7 @@ const input = ref({
 });
 
 const toast = useToast()
+const loading = ref(false)
 
 
 const { login } = useUser()
@@ -12,6 +13,7 @@ const { login } = useUser()
 async function onLogin() {
   // Handle sign-up logic here
   try {
+    loading.value= true
     const data = await login(input.value.email, input.value.password);
     toast.add({
       title: `Login successful! with ${data.user.email}`,
@@ -23,7 +25,7 @@ async function onLogin() {
       title: (error as Error)?.message || "An error occurred",
       color: "error",
     })
-    return
+    loading.value = false
   }
   // const {data, error} = await authClient.signIn.email({
   //   ...input.value,
@@ -51,7 +53,7 @@ async function onLogin() {
           />
         </UFormField>
         <div class="mt-3">
-          <UButton block type="submit">Login</UButton>
+          <UButton block type="submit" :loading="loading" >Login</UButton>
         </div>
       </div>
     </form>
