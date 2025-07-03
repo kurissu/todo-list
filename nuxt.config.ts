@@ -4,8 +4,10 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
-   nitro: {
-    preset: 'vercel'
+  nitro: {
+    externals: {
+      inline: [], // prevent inlining of all node_modules
+    }
   },
   css: ["~/assets/css/main.css"],
   ui: {
