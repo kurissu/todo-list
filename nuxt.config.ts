@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   nitro: {
-    preset: 'vercel-edge', // or 'vercel' for Node.js runtime
+    preset: 'vercel', // or 'vercel' for Node.js runtime
     experimental: {
       wasm: true
     }
