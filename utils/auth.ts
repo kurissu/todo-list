@@ -15,6 +15,11 @@ export const auth = betterAuth({
     },
     socialProviders: {
     },
+    advanced: {
+    generateId: () => crypto.randomUUID(), // Use crypto instead of file-based ID generation
+  },
+  // Use environment variables for configuration instead of file paths
+  secret: process.env.AUTH_SECRET,
     plugins: [
         openAPI(),
     ]
