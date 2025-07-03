@@ -5,9 +5,14 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   nitro: {
-    externals: {
-      inline: [], // prevent inlining of all node_modules
+    preset: 'vercel-edge', // or 'vercel' for Node.js runtime
+    experimental: {
+      wasm: true
     }
+  },
+  // Ensure ES modules compatibility
+  build: {
+    transpile: ['better-auth'] // Add any problematic packages here
   },
   css: ["~/assets/css/main.css"],
   ui: {
